@@ -1,0 +1,12 @@
+<h1>PHOTO COMPONENT</h1>
+<a [routerLink]="['/home']">ACCUEIL</a> <br>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmitPhoto()">
+  numero image : <input formControlName="inputPhoto" type="number" >
+</form>
+<button (click)="onSubmitPhoto()">Valider pour l'image</button>
+<br>
+<div *ngIf="(image | async)" >
+  <h2>informations de la photo</h2>
+  <p>titre : {{(image | async)?.title}}</p>
+  <img [src]="(image | async)?.thumbnailUrl" [alt]="(image | async)?.title">
+</div>

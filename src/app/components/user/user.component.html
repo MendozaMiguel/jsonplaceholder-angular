@@ -1,0 +1,57 @@
+<h1>USER COMPONENT</h1>
+<a [routerLink]="['/home']">ACCUEIL</a> <br>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Selection du numero : </label>
+    <select formControlName="selected">
+        <option value=""></option>
+        <option *ngFor="let choice of listChoice"  [value]="choice">{{choice}}</option>
+    </select>
+  </div>
+</form>
+<form>
+  <label>Selection du choix par liste ou par ID : </label>
+  <select [(ngModel)]="selectedValue" name="selectedValue">
+    <option value="byId">ID</option>
+    <option value="byList">Liste</option>
+  </select>
+</form>
+
+<button (click)="onSubmit()">Valider</button>
+
+<span *ngIf="(listUser | async)?.length > 0 && selectedValue === 'byList'" >
+  <h1>liste des utilisateurs</h1>
+  <p>informations utilisateur</p>
+  <div *ngFor="let user of (listUser | async)" >
+    <p>nom : {{user.name}}</p>
+    <p>email : {{user.email}}</p>
+    <p>téléphone : {{user.phone}}</p>
+    <p>siteweb : {{user.website}}</p>
+    <hr>
+  </div>
+</span>
+
+<span *ngIf="(listUser | async) && selectedValue === 'byId'">
+  <h1>utilisateurs par ID</h1>
+  <p>informations utilisateur</p>
+  <span *ngIf="registerForm.value.selected === 'all'; else one ">
+    <div *ngFor="let user of (listUser | async)" >
+      <p>nom : {{user.name}}</p>
+      <p>email : {{user.email}}</p>
+      <p>téléphone : {{user.phone}}</p>
+      <p>siteweb : {{user.website}}</p>
+      <hr>
+    </div>
+  </span>
+  <ng-template #one>
+    <p>nom : {{(listUser | async)?.name}}</p>
+    <p>email : {{(listUser | async)?.email}}</p>
+    <p>téléphone : {{(listUser | async)?.phone}}</p>
+    <p>siteweb : {{(listUser | async)?.website}}</p>
+    <hr>
+  </ng-template>
+</span>
+
+<span *ngIf="!registerForm.value.selected" >
+<p>Veuillez faire un choix dans la sélection du numéro entre 1 à 10</p>
+</span>
