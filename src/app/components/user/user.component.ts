@@ -48,7 +48,9 @@ export class UserComponent implements OnInit {
       if (index === 'all') {
         this.listUser = this.apiClientService.get(environment.USER_API);
       } else {
-        this.listUser = this.apiClientService.get(environment.USER_API).pipe(map(val => val.slice(0, index)));
+        this.listUser = this.apiClientService.get(environment.USER_API).pipe(map(
+          val => val instanceof Array ?  val.slice(0, index) : val
+          ));
       }
     }
   }
